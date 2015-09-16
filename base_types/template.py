@@ -73,5 +73,9 @@ class Template:
     def activeNode(self):
         return getattr(bpy.context, "active_node", None)
 
+    @property
+    def selectedNodes(self):
+        return getattr(bpy.context, "selected_nodes", [])
+
     def updateSubprograms(self):
         subprogram_sockets.updateIfNecessary()
