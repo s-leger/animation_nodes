@@ -28,36 +28,39 @@ class Template:
 
     def execute(self, context):
         self.nodesToMove = []
-        self.newNodes = []
+        self.nodesToPosition = []
         self.insert()
-        self.offsetNewNodesPosition()
+        self.offsetNodePositions()
         self.moveInsertedNodes()
         return {"FINISHED"}
 
     def insert(self):
         pass
 
-    def newNode(self, type, x = 0, y = 0, move = True, label = ""):
+    def newNode(self, type, x = 0, y = 0, move = True, fixPosition = False, label = ""):
         node = self.nodeTree.nodes.new(type = type)
         node.location.x += x
         node.location.y += y
         node.label = label
-        self.newNodes.append(node)
+        if not fixPosition: self.nodesToPosition.append(node)
         if move: self.nodesToMove.append(node)
         return node
 
     def newLink(self, fromSocket, toSocket):
         self.nodeTree.links.new(toSocket, fromSocket)
 
+    def move(self, *nodes):
+        self.nodesToMove.extend(nodes)
+
     def nodeByIdentifier(self, identifier):
         try: return getNodeByIdentifier(identifier)
         except: return None
 
-    def offsetNewNodesPosition(self):
+    def offsetNodePositions(self):
         tempNode = newNodeAtCursor("an_DebugNode")
         offset = tempNode.location
         self.nodeTree.nodes.remove(tempNode)
-        for node in self.newNodes:
+        for node in self.nodesToPosition:
             node.location += offset + Vector(self.nodeOffset)
 
     def moveInsertedNodes(self):

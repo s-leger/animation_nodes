@@ -13,6 +13,9 @@ def register():
     kmi = km.keymap_items.new("wm.call_menu_pie", type = "W", value = "PRESS")
     kmi.properties.name = "an.context_pie"
 
+    # Just temporary
+    kmi = km.keymap_items.new("an.make_group_template_operator", type = "U", value = "PRESS")
+
     addon_keymaps.append(km)
 
 def unregister():
