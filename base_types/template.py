@@ -28,7 +28,7 @@ class Template:
 
     def execute(self, context):
         self.nodesToMove = []
-        self.nodesToPosition = []
+        self.nodesToOffset = []
         self.insert()
         self.offsetNodePositions()
         self.moveInsertedNodes()
@@ -37,12 +37,12 @@ class Template:
     def insert(self):
         pass
 
-    def newNode(self, type, x = 0, y = 0, move = True, fixPosition = False, label = ""):
+    def newNode(self, type, x = 0, y = 0, move = True, applyCursorOffset = True, label = ""):
         node = self.nodeTree.nodes.new(type = type)
         node.location.x += x
         node.location.y += y
         node.label = label
-        if not fixPosition: self.nodesToPosition.append(node)
+        if applyCursorOffset: self.nodesToOffset.append(node)
         if move: self.nodesToMove.append(node)
         return node
 
@@ -60,7 +60,7 @@ class Template:
         tempNode = newNodeAtCursor("an_DebugNode")
         offset = tempNode.location
         self.nodeTree.nodes.remove(tempNode)
-        for node in self.nodesToPosition:
+        for node in self.nodesToOffset:
             node.location += offset + Vector(self.nodeOffset)
 
     def moveInsertedNodes(self):

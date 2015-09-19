@@ -31,12 +31,12 @@ class MakeGroupTemplateOperator(bpy.types.Operator, Template):
         selectedNodesCenter = self.getAverageLocation(nodes)
         minXBoundary, maxXBoundary = self.getHorizontalNodeBoundaries(nodes)
 
-        groupInputNode = self.newNode("an_GroupInputNode", fixPosition = True)
+        groupInputNode = self.newNode("an_GroupInputNode", applyCursorOffset = False)
         groupInputNode.location = (minXBoundary - 300, selectedNodesCenter.y)
         for socket, origin in inputConnections:
             groupInputNode.newParameter(socket.dataType, name = socket.getDisplayedName())
 
-        groupOutputNode = self.newNode("an_GroupOutputNode", fixPosition = True)
+        groupOutputNode = self.newNode("an_GroupOutputNode", applyCursorOffset = False)
         groupOutputNode.groupInputIdentifier = groupInputNode.identifier
         groupOutputNode.location = (maxXBoundary + 300, selectedNodesCenter.y)
         for socket, target in outputConnections:
@@ -46,7 +46,7 @@ class MakeGroupTemplateOperator(bpy.types.Operator, Template):
             if self.shouldLinkBeRemoved(link, inputConnections, outputConnections):
                 self.nodeTree.links.remove(link)
 
-        invokeSubprogramNode = self.newNode("an_InvokeSubprogramNode", move = False, fixPosition = True)
+        invokeSubprogramNode = self.newNode("an_InvokeSubprogramNode", move = False, applyCursorOffset = False)
         invokeSubprogramNode.location = selectedNodesCenter
         invokeSubprogramNode.subprogramIdentifier = groupInputNode.identifier
 
