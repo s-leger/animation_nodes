@@ -11,4 +11,4 @@ class GetAllSequencesNode(bpy.types.Node, AnimationNode):
 
     def getExecutionCode(self):
         return ("editor = scene.sequence_editor if scene else None",
-                "sequences = getattr(editor, 'sequences', [])")
+                "sequences = list(getattr(editor, 'sequences', []))")
