@@ -10,6 +10,7 @@ def register():
 
     # Open the ctrl-A search menu
     kmi = km.keymap_items.new("an.node_search", type = "A", value = "PRESS", ctrl = True)
+    kmi = km.keymap_items.new("an.search_test_implementation", type = "O", value = "PRESS")
 
     # Open the context sensitive pie menu
     kmi = km.keymap_items.new("wm.call_menu_pie", type = "W", value = "PRESS")
